@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: libraryapi
+  datasource:
+    url: jdbc:postgresql://localhost:5432/seguranca_alimentar
+    username: postgres
+    password: postgre
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create # ou 'create-drop' se quiser que as tabelas sejam removidas ao encerrar
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always # executa o data.sql sempre
+      data-locations: classpath:data.sql
+      continue-on-error: true # ignora erros se já existirem dados
+      platform: postgresql
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: josehvitor1@gmail.com
+    password: 6f72b48d0e@
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+        transport:
+          protocol: smtp
+
+jwt:
+  secret: "bXlTdXBlclNlY3JldEtleVNlY3VyZTU2NzghQCMk"
+  expiration: 86400000
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  openapi:
+    info:
+      title: API de Segurança Alimentar
+      description: Sistema de avaliação de insegurança alimentar
+      version: 1.0.0
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+        web: INFO
+      hibernate: ERROR
+    root: INFO
