@@ -1,0 +1,72 @@
+@import url(/PROJETO\ DE\ ENG.\ SOFT/static/css/home.css);
+
+#divinicial, #divsecundaria, #divterciaria{
+    margin-top: 3%;
+    padding: 10px 20px;
+}
+
+
+#consumo, #ebia{
+    display:none;
+}
+
+#formulariocompleto{
+  margin-left: 1%;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between; /* Mantém um à esquerda e outro à direita */
+    width: 100%; /* Garante que os botões ocupem toda a largura disponível */
+  }
+
+  button{
+    border-top: 2%;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover{
+  background-color: #0c440e;
+  }
+
+#table1, #table2{
+  width: 70%;
+  padding: 12px 20px;
+  margin: 8px 0px;
+  box-sizing: border-box;
+  border: 2px solid #000;
+  border-radius: 4px;
+  background-color: #f2f2f2;
+  font-size: 16px;
+}
+
+td {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+}
+
+input {
+  width: 2%;
+  padding: 12px 20px;
+  margin: 8px 0px;
+  box-sizing: border-box;
+  border: 2px solid #000;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 16px;
+}
+
+#p1, #p2, #p3e, #p7f, #p8b, #p10h{
+  width: 70%;
+}
