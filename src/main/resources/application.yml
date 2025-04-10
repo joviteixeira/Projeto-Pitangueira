@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/seguranca_alimentar
     username: postgres
-    password: postgre
+    password: marcelo
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -14,7 +14,7 @@ spring:
     init:
       mode: always # executa o data.sql sempre
       data-locations: classpath:data.sql
-      continue-on-error: true # ignora erros se já existirem dados
+      continue-on-error: true # ignora erros se jï¿½ existirem dados
       platform: postgresql
   mail:
     host: smtp.gmail.com
@@ -43,8 +43,8 @@ springdoc:
     path: /v3/api-docs
   openapi:
     info:
-      title: API de Segurança Alimentar
-      description: Sistema de avaliação de insegurança alimentar
+      title: API de Seguranï¿½a Alimentar
+      description: Sistema de avaliaï¿½ï¿½o de inseguranï¿½a alimentar
       version: 1.0.0
 
 logging:

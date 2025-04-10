@@ -1,0 +1,92 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+}
+
+header {
+    height: 30px;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 20px;
+    background-color: #4caf50;
+    color: white;
+    color: white;
+    height: 30px;
+    width: 100%;
+    position: fixed;
+}
+
+nav li{
+    display: inline-block;
+    margin-right: 20px;
+}
+
+nav a{
+    color: #ffffff;
+    font-size: 18px;
+    text-decoration: none;
+}
+
+nav a:hover{
+    color: #666;
+}
+
+.btnlogin {
+    position: absolute;
+    top: 5;
+    right: 0;
+    margin-right: 16%;
+}
+
+.btncadastrar{
+    position: absolute;
+    top: 5;
+    right: 0;
+    margin-right: 7%;
+}
+
+#busca {
+    background-color: #f9f9f9;
+    padding: 20px;
+}
+
+#busca h2{
+    font-size: 24px;
+    margin-bottom: 20px;
+    margin-top: 40px;
+}
+
+#busca button[type ="submit"]{
+    padding: 14px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius:0px 5px 5px 0px;
+    cursor: pointer;
+}
+
+#campo-busca{
+    width: 70%;
+    padding: 12px 20px;
+    margin: 8px 0px;
+    box-sizing: border-box;
+    border: 2px solid #000;
+    border-radius: 4px;
+    background-color: #f2f2f2;
+    font-size: 16px;
+}
+
+footer {
+    background-color: #4caf50;
+    color: white;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    height: 30px;
+    bottom: 0;
+    width: 100%;
+}
