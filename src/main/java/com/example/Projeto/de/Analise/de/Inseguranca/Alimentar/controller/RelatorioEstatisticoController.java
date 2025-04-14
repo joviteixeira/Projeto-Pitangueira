@@ -18,7 +18,6 @@ import java.util.Map;
 public class RelatorioEstatisticoController {
     private final RelatorioEstatisticoService relatorioService;
 
-    @CrossOrigin(origins = "*")
     @GetMapping("/familia-inseguranca")
     public ResponseEntity<Map<String, Object>> getFamiliaInseguranca(
             @RequestParam(required = false) Integer idadeMin,

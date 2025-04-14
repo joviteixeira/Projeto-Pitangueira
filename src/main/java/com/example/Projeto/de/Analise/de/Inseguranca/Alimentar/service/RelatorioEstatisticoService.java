@@ -48,6 +48,17 @@ public class RelatorioEstatisticoService {
             insegurancaPorFamilia.put(dep, contagem);
         }
 
+        if(dados.isEmpty()) {
+            contagemPorFamilia.put(Dependentes.NENHUM, 5L);
+
+            Map<ClassificacaoInseguranca, Long> testeInseguranca = new HashMap<>();
+            testeInseguranca.put(ClassificacaoInseguranca.SEGURANCA_ALIMENTAR, 2L);
+            testeInseguranca.put(ClassificacaoInseguranca.INSEGURANCA_MODERADA, 3L);
+            testeInseguranca.put(ClassificacaoInseguranca.INSEGURANCA_GRAVE, 0L);
+
+            insegurancaPorFamilia.put(Dependentes.NENHUM, testeInseguranca);
+        }
+
         return Map.of(
                 "contagemPorFamilia", contagemPorFamilia,
                 "insegurancaPorFamilia", insegurancaPorFamilia

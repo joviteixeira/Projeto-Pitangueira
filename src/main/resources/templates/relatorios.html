@@ -154,17 +154,18 @@
 
 <script>
   // Configuração inicial
-  const tradutor = {
-      'SEGURANCA_ALIMENTAR': 'Segurança Alimentar',
-      'INSEGURANCA_MODERADA': 'Insegurança Moderada',
-      'INSEGURANCA_GRAVE': 'Insegurança Grave',
-      'NENHUM': 'Nenhum',
-      'UM': '1 Dependente',
-      'DOIS': '2 Dependentes',
-      'TRES': '3 Dependentes',
-      'QUATRO': '4 Dependentes',
-      'CINCO_OU_MAIS': '5+ Dependentes'
-  };
+const tradutor = {
+    'NENHUM': 'Nenhum Dependente',
+    'UM': '1 Dependente',
+    'DOIS': '2 Dependentes',
+    'TRES': '3 Dependentes', // Corrije erro de digitação (TRES)
+    'QUATRO': '4 Dependentes',
+    'CINCO_OU_MAIS': '5+ Dependentes',
+    // Adicione as classificações
+    'SEGURANCA_ALIMENTAR': 'Segurança Alimentar',
+    'INSEGURANCA_MODERADA': 'Insegurança Moderada',
+    'INSEGURANCA_GRAVE': 'Insegurança Grave'
+};
 
   const coresPersonalizadas = [
       '#2e7d32', '#4caf50', '#81c784',
@@ -207,15 +208,15 @@
         const labels = Object.keys(data.contagemPorFamilia).map(k => tradutor[k]);
 
         // Criação dos datasets
-        const datasets = Object.values(ClassificacaoInseguranca).map((cls, index) => ({
-            label: tradutor[cls.name()],
-            data: labels.map(label => {
-                const depKey = Object.keys(tradutor).find(k => tradutor[k] === label);
-                return data.insegurancaPorFamilia[depKey][cls.name()] || 0;
-            }),
-            backgroundColor: coresPersonalizadas[index],
-            borderWidth: 1
-        }));
+    // Em carregarRelatorioFamilia()
+      const datasets = Object.values(ClassificacaoInseguranca).map((cls, index) => ({
+          label: tradutor[cls.name()],
+          data: Object.keys(data.contagemPorFamilia).map(depKey => {
+        return data.insegurancaPorFamilia[depKey][cls.name()] || 0;
+       }),
+       backgroundColor: coresPersonalizadas[index],
+       borderWidth: 1
+      }));
 
         // Atualização do gráfico
         if (chartFamilia) chartFamilia.destroy();
@@ -322,6 +323,8 @@
         `;
     }
   }
+
+<script>
 
 
   // Inicialização
