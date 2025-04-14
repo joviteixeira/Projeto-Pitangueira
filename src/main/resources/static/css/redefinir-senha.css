@@ -84,7 +84,7 @@ nav {
 
 /* Button Styles */
 .btn {
-    padding: 0.6rem 1.2rem;
+    padding: 0.8rem 1.5rem;
     border-radius: var(--border-radius);
     text-decoration: none;
     font-weight: 500;
@@ -93,7 +93,6 @@ nav {
     gap: 0.5rem;
     transition: var(--transition);
     border: 2px solid transparent;
-    font-size: 0.9rem;
     cursor: pointer;
 }
 
@@ -108,10 +107,6 @@ nav {
     box-shadow: 0 4px 8px rgba(46, 125, 50, 0.2);
 }
 
-.primary-btn.active {
-    background-color: var(--primary-dark);
-}
-
 .outline-btn {
     background-color: transparent;
     color: var(--dark-color);
@@ -122,49 +117,38 @@ nav {
     background-color: var(--light-color);
 }
 
-.secondary-btn {
-    background-color: transparent;
-    color: var(--primary-color);
-    border-color: var(--primary-color);
-}
-
-.secondary-btn:hover {
-    background-color: var(--primary-light);
-    color: var(--white);
-}
-
 .full-width {
     width: 100%;
     justify-content: center;
 }
 
 /* Main Content */
-.cadastro-main {
+.recuperar-senha-main {
     padding: 4rem 0;
     min-height: calc(100vh - 150px);
     display: flex;
     align-items: center;
 }
 
-.cadastro-grid {
+.recuperar-senha-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 3rem;
     align-items: center;
 }
 
-.cadastro-intro {
+.recuperar-senha-intro {
     padding: 2rem;
 }
 
-.cadastro-intro h1 {
+.recuperar-senha-intro h1 {
     font-size: 2.5rem;
     color: var(--primary-dark);
     margin-bottom: 1rem;
     line-height: 1.2;
 }
 
-.cadastro-intro p {
+.recuperar-senha-intro p {
     color: var(--gray-color);
     margin-bottom: 2rem;
     font-size: 1.1rem;
@@ -192,19 +176,19 @@ nav {
     color: var(--dark-color);
 }
 
-.cadastro-image {
+.recuperar-senha-image {
     margin-top: 3rem;
     text-align: center;
 }
 
-.cadastro-image img {
+.recuperar-senha-image img {
     max-width: 100%;
     height: auto;
     max-height: 300px;
 }
 
-/* Cadastro Card */
-.cadastro-card {
+/* Recuperar Senha Card */
+.recuperar-senha-card {
     background-color: var(--white);
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
@@ -232,7 +216,7 @@ nav {
     font-size: 1rem;
 }
 
-.cadastro-form {
+.recuperar-senha-form {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -309,38 +293,13 @@ nav {
     overflow: hidden;
 }
 
-.strength-bar {
-    height: 4px;
-    background-color: #eee;
-    border-radius: 2px;
-    flex: 1;
-    overflow: hidden;
-    position: relative;
-}
-
-.strength-bar-fill {
+.strength-bar::after {
+    content: '';
+    display: block;
     height: 100%;
     width: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    transition: width 0.3s ease;
-    border-radius: 2px;
-}
-
-.strength-weak {
-    width: 33%;
     background-color: var(--error-color);
-}
-
-.strength-medium {
-    width: 66%;
-    background-color: var(--accent-color);
-}
-
-.strength-strong {
-    width: 100%;
-    background-color: var(--success-color);
+    transition: width 0.3s ease;
 }
 
 .strength-text {
@@ -348,51 +307,10 @@ nav {
     color: var(--gray-color);
 }
 
-/* Form Options */
-.form-options {
-    margin: 0.5rem 0;
-}
-
-.terms-agreement {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
-}
-
-.terms-agreement input {
-    margin-top: 0.2rem;
-}
-
-.terms-agreement label {
-    font-size: 0.9rem;
+.form-text {
+    font-size: 0.8rem;
     color: var(--gray-color);
-    font-weight: 400;
-}
-
-.terms-agreement a {
-    color: var(--primary-color);
-    text-decoration: none;
-}
-
-.terms-agreement a:hover {
-    text-decoration: underline;
-}
-
-/* Divider */
-.divider {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    color: var(--gray-color);
-    margin: 1rem 0;
-}
-
-.divider::before,
-.divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background-color: #ddd;
+    margin-top: 0.25rem;
 }
 
 /* Alerts */
@@ -419,6 +337,29 @@ nav {
 
 .alert i {
     font-size: 1.2rem;
+}
+
+/* Back to login link */
+.back-to-login {
+    color: var(--primary-color);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+.back-to-login:hover {
+    text-decoration: underline;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mt-3 {
+    margin-top: 1rem;
 }
 
 /* Footer Styles */
@@ -472,11 +413,11 @@ footer {
 
 /* Responsive Styles */
 @media (max-width: 992px) {
-    .cadastro-grid {
+    .recuperar-senha-grid {
         grid-template-columns: 1fr;
     }
 
-    .cadastro-intro {
+    .recuperar-senha-intro {
         text-align: center;
         padding: 1rem;
     }
@@ -490,10 +431,9 @@ footer {
 
     .benefit-item {
         margin-bottom: 0;
-        flex: 0 0 calc(50% - 1rem);
     }
 
-    .cadastro-image {
+    .recuperar-senha-image {
         display: none;
     }
 }
@@ -507,25 +447,17 @@ footer {
         display: none;
     }
 
-    .cadastro-intro h1 {
+    .recuperar-senha-intro h1 {
         font-size: 2rem;
     }
 }
 
 @media (max-width: 576px) {
-    .cadastro-card {
+    .recuperar-senha-card {
         padding: 1.5rem;
     }
 
     .card-header h2 {
         font-size: 1.5rem;
-    }
-
-    .benefit-item {
-        flex: 0 0 100%;
-    }
-
-    .terms-agreement label {
-        font-size: 0.8rem;
     }
 }

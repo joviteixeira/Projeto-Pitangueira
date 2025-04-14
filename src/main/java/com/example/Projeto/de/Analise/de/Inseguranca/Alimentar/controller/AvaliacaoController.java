@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RestController
 @RequestMapping("/api/avaliacoes")
 @Tag(name = "Avaliação de Insegurança Alimentar", description = "Gestão de formulários de avaliação nutricional")
 public class AvaliacaoController {
@@ -70,4 +69,5 @@ public class AvaliacaoController {
     public ResponseEntity<List<AvaliacaoDTO>> listarMinhasAvaliacoes(@AuthenticationPrincipal User user) {
         return ResponseEntity.ok(avaliacaoService.listarPorUsuario(user));
     }
+
 }

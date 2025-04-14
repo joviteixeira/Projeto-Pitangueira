@@ -33,6 +33,18 @@ public class AvaliacaoService {
         return toDTO(avaliacaoRepository.save(avaliacao));
     }
 
+    public AvaliacaoDTO criarAvaliacaoComUsuario(AvaliacaoDTO dto, User user) {
+        avaliacaoValidator.validar(dto);
+
+        Avaliacao avaliacao = new Avaliacao();
+        avaliacao.setUser(user);
+        avaliacao.setQuestionario(mapearQuestionario(dto.getQuestionario()));
+        avaliacao.setMarcadoresConsumo(mapearConsumo(dto.getConsumo()));
+        avaliacao.setEbia(mapearEBIA(dto.getEbia()));
+
+        return toDTO(avaliacaoRepository.save(avaliacao));
+    }
+
     @Transactional
     public List<AvaliacaoDTO> listarTodas() {
         return avaliacaoRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());

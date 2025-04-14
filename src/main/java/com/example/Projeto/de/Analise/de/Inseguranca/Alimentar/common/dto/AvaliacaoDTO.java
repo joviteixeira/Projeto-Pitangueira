@@ -16,6 +16,9 @@ public class AvaliacaoDTO {
     @Schema(description = "Data de cadastro da avaliação", example = "2024-01-01T10:00:00")
     private LocalDateTime dataCadastro;
 
+    @Schema(description = "ID do usuário que realizou a avaliação")
+    private Long userId;  // Adicione este campo
+
     @NotNull(message = "Dados socioeconômicos são obrigatórios")
     @Valid
     @Schema(description = "Seção do questionário socioeconômico")

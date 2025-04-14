@@ -4,17 +4,17 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/seguranca_alimentar
     username: postgres
-    password: marcelo
+    password: postgre
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create # ou 'create-drop' se quiser que as tabelas sejam removidas ao encerrar
+      ddl-auto: update
     defer-datasource-initialization: true
   sql:
     init:
-      mode: always # executa o data.sql sempre
+      mode: always
       data-locations: classpath:data.sql
-      continue-on-error: true # ignora erros se j� existirem dados
+      continue-on-error: true
       platform: postgresql
   mail:
     host: smtp.gmail.com
@@ -29,6 +29,13 @@ spring:
             enable: true
         transport:
           protocol: smtp
+  thymeleaf:
+    enabled: true
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    cache: false
+    encoding: UTF-8
 
 jwt:
   secret: "bXlTdXBlclNlY3JldEtleVNlY3VyZTU2NzghQCMk"
@@ -43,8 +50,8 @@ springdoc:
     path: /v3/api-docs
   openapi:
     info:
-      title: API de Seguran�a Alimentar
-      description: Sistema de avalia��o de inseguran�a alimentar
+      title: API de Seguranca Alimentar
+      description: Sistema de avaliação de insegurança alimentar
       version: 1.0.0
 
 logging:

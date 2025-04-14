@@ -15,5 +15,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // Verifica se o email já está cadastrado (para evitar duplicatas)
     boolean existsByEmail(String email);
 
-    Optional<User> findByResetToken(String resetToken);
+    Optional<User> findByPasswordResetToken(String token);
 }

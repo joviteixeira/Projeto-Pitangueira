@@ -6,11 +6,13 @@ import com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.model.User;
 import com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.service.AuthService;
 import lombok.Data;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Data
 @RequestMapping("/api/auth")
+@Service
 public class AuthController {
 
     private final AuthService authService;

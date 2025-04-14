@@ -11,7 +11,7 @@ import java.util.Map;
 public class RespostaEBIA {
 
     public enum RespostaEBIAEnum {
-        SIM, NÃO, NAO_SABE
+        SIM, NAO, NAO_SABE
     }
 
     @NotNull(message = "Respostas EBIA são obrigatórias")

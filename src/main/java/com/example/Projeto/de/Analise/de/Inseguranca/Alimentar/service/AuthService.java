@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -30,10 +31,16 @@ public class AuthService {
             throw new RuntimeException("Email já cadastrado");
         }
 
+        // Você pode adicionar outras validações para o campo senha aqui.
+        if (user.getPassword().length() < 6) {
+            throw new RuntimeException("A senha deve ter pelo menos 6 caracteres");
+        }
+
         User newUser = new User();
         newUser.setEmail(user.getEmail());
         newUser.setPassword(passwordEncoder.encode(user.getPassword()));
         newUser.setAdmin(user.isAdmin());
+        newUser.setNome(user.getNome());  // Caso você adicione esse campo ao modelo User
         return userRepository.save(newUser);
     }
 
@@ -45,6 +52,10 @@ public class AuthService {
         var user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 
+        if (!user.isEnabled()) {
+            throw new RuntimeException("Conta desativada");
+        }
+
         var jwtToken = jwtService.generateToken(user);
 
         return new JwtResponse(jwtToken, user.getId(), user.getEmail(), user.isAdmin() ? "ADMIN" : "USER");
@@ -55,7 +66,8 @@ public class AuthService {
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
         String resetToken = UUID.randomUUID().toString();
-        user.setResetToken(resetToken);
+        user.setPasswordResetToken(resetToken);  // Changed from setResetToken to setPasswordResetToken
+        user.setPasswordResetTokenExpiry(LocalDateTime.now().plusHours(24));
         userRepository.save(user);
 
         // Enviar email com o token
@@ -63,11 +75,15 @@ public class AuthService {
     }
 
     public void resetPassword(String token, String newPassword) {
-        User user = userRepository.findByResetToken(token)
+        User user = userRepository.findByPasswordResetToken(token)
                 .orElseThrow(() -> new RuntimeException("Token inválido"));
 
         user.setPassword(passwordEncoder.encode(newPassword));
-        user.setResetToken(null);
+        user.setPasswordResetToken(null);
         userRepository.save(user);
+    }
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null); // 👈 Não lance exceção aqui!
     }
 }

@@ -1,5 +1,7 @@
 package com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.repository;
 
+import com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.common.enums.ClassificacaoInseguranca;
+import com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.common.enums.Dependentes;
 import com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.model.Avaliacao;
 import com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.model.User;
 import com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.common.enums.Genero;
@@ -55,4 +57,33 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
 
     @Query("SELECT a FROM Avaliacao a WHERE a.user = :user ORDER BY a.dataCadastro DESC LIMIT 1")
     Optional<Avaliacao> findTopByUserOrderByDataCadastroDesc(@Param("user") User user);
+
+    @Query("SELECT a FROM Avaliacao a JOIN FETCH a.questionario q WHERE q.dependentes IS NOT NULL AND a.classificacao IS NOT NULL")
+    List<Avaliacao> findAvaliacoesValidas();
+
+    @Query("SELECT COUNT(a) FROM Avaliacao a WHERE a.questionario.dependentes = :dependentes")
+    Long countByDependentes(@Param("dependentes") Dependentes dependentes);
+
+    @Query("SELECT COUNT(a) FROM Avaliacao a WHERE a.questionario.dependentes = :dependentes AND a.classificacao = :classificacao")
+    Long countByDependentesAndClassificacao(
+            @Param("dependentes") Dependentes dependentes,
+            @Param("classificacao") ClassificacaoInseguranca classificacao);
+
+    @Query("SELECT DISTINCT a FROM Avaliacao a " +
+            "JOIN FETCH a.questionario q " +
+            "JOIN FETCH a.marcadoresConsumo mc " +
+            "WHERE q.dependentes IS NOT NULL " +
+            "AND mc.consumoDiaAnterior.feijao IS NOT NULL " +
+            "AND mc.consumoDiaAnterior.frutasFrescas IS NOT NULL")
+    List<Avaliacao> findAvaliacoesComConsumoValido();
+
+    @Query("SELECT a FROM Avaliacao a JOIN FETCH a.questionario q " +
+            "WHERE q.dependentes IS NOT NULL AND a.classificacao IS NOT NULL")
+    List<Avaliacao> findAvaliacoesValidasParaRelatorio();
+
+    @Query("SELECT a FROM Avaliacao a JOIN FETCH a.questionario q WHERE q.dependentes IS NOT NULL")
+    List<Avaliacao> findAllWithQuestionarioAndDependentes();
+
+
+
 }

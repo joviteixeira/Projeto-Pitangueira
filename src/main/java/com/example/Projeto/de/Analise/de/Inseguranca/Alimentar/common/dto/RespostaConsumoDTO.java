@@ -1,5 +1,6 @@
 package com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.common.dto;
 
+import com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.common.enums.UsoDispositivosRefeicao;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -21,6 +22,10 @@ public class RespostaConsumoDTO {
 
     @Data
     public static class ConsumoDiaAnterior {
+
+        @NotNull
+        private UsoDispositivosRefeicao usoDispositivosRefeicao;
+
         @NotNull
         @Schema(description = "Consumiu feijão?")
         private Boolean feijao;

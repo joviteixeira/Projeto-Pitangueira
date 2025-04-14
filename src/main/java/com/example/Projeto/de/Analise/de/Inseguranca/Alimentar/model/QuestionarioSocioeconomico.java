@@ -53,4 +53,7 @@ public class QuestionarioSocioeconomico {
 
     @Enumerated(EnumType.STRING)
     private Religiao religiao;
+
+    @OneToOne(mappedBy = "questionario")
+    private Avaliacao avaliacao;
 }
