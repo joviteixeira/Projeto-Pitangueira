@@ -1,349 +1,152 @@
 <!DOCTYPE html>
-<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Relatórios - Projetos IFBA</title>
-  <link rel="stylesheet" th:href="@{/css/redefinir-senha.css}" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <title>Dashboard - Dados Reais</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
   <style>
-    .dashboard {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
-      gap: 25px;
-      margin-top: 20px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    body {
+      font-family: Arial, sans-serif;
       padding: 20px;
-      transition: transform 0.3s;
+      background: #f5f5f5;
     }
-
-    .card:hover {
-      transform: translateY(-5px);
+    .section {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      max-width: 1200px;
+      margin: auto;
     }
-
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-      border-bottom: 2px solid #2e7d32;
-      padding-bottom: 10px;
+    .charts-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
     }
-
-    .filters {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+    .chart-card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      height: 350px;
     }
-
-    select, button, input {
-      padding: 8px 12px;
-      border-radius: 5px;
-      border: 1px solid #ddd;
+    .chart-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: center;
     }
-
-    button {
-      background-color: #2e7d32;
-      color: white;
-      border: none;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    button:hover {
-      background-color: #4caf50;
-    }
-
-    .chart-container {
-      position: relative;
-      height: 400px;
-      width: 100%;
+    .chart-wrapper {
+      height: 300px;
     }
   </style>
 </head>
 <body>
-
-<header>
-  <nav>
-    <div class="container">
-      <div class="logo">
-        <img th:src="@{/images/ifba-logo.png}" alt="IFBA Logo">
-      </div>
-      <ul class="nav-list">
-        <li><a href="/"><i class="fas fa-home"></i> Página Inicial</a></li>
-        <li><a href="/relatorios"><i class="fas fa-chart-bar"></i> Relatórios</a></li>
-        <li><a href="/sobre"><i class="fas fa-info-circle"></i> Sobre</a></li>
-      </ul>
-      <div class="auth-buttons">
-        <a href="/login" class="btn outline-btn"><i class="fas fa-sign-in-alt"></i> Login</a>
-        <a href="/cadastro" class="btn primary-btn"><i class="fas fa-user-plus"></i> Cadastre-se</a>
-      </div>
-    </div>
-  </nav>
-</header>
-
-<main class="relatorios-main">
-  <div class="container">
-    <h1><i class="fas fa-chart-bar"></i> Relatórios Estatísticos</h1>
-
-    <!-- Relatório 1 - Família x Insegurança Alimentar -->
-    <div class="card">
-      <div class="card-header">
-        <h2><i class="fas fa-users"></i> Família x Insegurança Alimentar</h2>
-        <div class="filters">
-          <select id="filterIdade1">
-            <option value="">Todas idades</option>
-            <option value="18-29">18-29 anos</option>
-            <option value="30-59">30-59 anos</option>
-            <option value="60-120">60+ anos</option>
-          </select>
-          <button id="btnAtualizar1">Atualizar</button>
-        </div>
-      </div>
-      <div class="chart-container">
-        <canvas id="chartFamilia"></canvas>
-      </div>
-    </div>
-
-    <!-- Relatório 2 - Consumo Alimentar por Família -->
-    <div class="card">
-      <div class="card-header">
-        <h2><i class="fas fa-utensils"></i> Consumo Alimentar por Família</h2>
-        <div class="filters">
-          <select id="filterEscolaridade">
-            <option value="">Todas escolaridades</option>
-            <option value="ENSINO_MEDIO_INCOMPLETO">Ensino Médio Incompleto</option>
-            <option value="ENSINO_FUNDAMENTAL_COMPLETO">Fundamental Completo</option>
-          </select>
-          <button id="btnAtualizar2">Atualizar</button>
-        </div>
-      </div>
-      <div class="chart-container">
-        <canvas id="chartConsumo"></canvas>
-      </div>
-    </div>
-
+<div class="section">
+  <h2>Dashboard - Dados Reais do Banco</h2>
+  <div class="charts-container" id="charts-container">
+    <!-- Gráficos serão adicionados via JavaScript -->
   </div>
-  </div>
-</main>
-
-<footer>
-  <div class="container">
-    <div class="footer-content">
-      <div class="footer-logo">
-        <img th:src="@{/images/ifba-logo-white.png}" alt="IFBA Logo" class="logo">
-        <p>Instituto Federal de Educação, Ciência e Tecnologia da Bahia</p>
-      </div>
-      <div class="footer-links">
-        <a href="/privacidade">Política de Privacidade</a>
-        <a href="/termos">Termos de Uso</a>
-        <a href="/contato">Contato</a>
-      </div>
-    </div>
-    <p class="copyright">&copy; 2025 Projetos IFBA. Todos os direitos reservados.</p>
-  </div>
-</footer>
+</div>
 
 <script>
-  // Configuração inicial
-const tradutor = {
-    'NENHUM': 'Nenhum Dependente',
-    'UM': '1 Dependente',
-    'DOIS': '2 Dependentes',
-    'TRES': '3 Dependentes', // Corrije erro de digitação (TRES)
-    'QUATRO': '4 Dependentes',
-    'CINCO_OU_MAIS': '5+ Dependentes',
-    // Adicione as classificações
-    'SEGURANCA_ALIMENTAR': 'Segurança Alimentar',
-    'INSEGURANCA_MODERADA': 'Insegurança Moderada',
-    'INSEGURANCA_GRAVE': 'Insegurança Grave'
-};
-
-  const coresPersonalizadas = [
-      '#2e7d32', '#4caf50', '#81c784',
-      '#1565c0', '#1976d2', '#2196f3',
-      '#ff8f00', '#ffa000', '#ffb300'
+  const graficosEsperados = [
+    { id: 'generoChart', titulo: 'Distribuição por Gênero', campo: 'distribuicaoGenero' },
+    { id: 'racaChart', titulo: 'Distribuição por Raça/Cor', campo: 'distribuicaoRacaCor' },
+    { id: 'escolaridadeChart', titulo: 'Distribuição por Escolaridade', campo: 'distribuicaoEscolaridade' },
+    { id: 'estadoCivilChart', titulo: 'Estado Civil', campo: 'distribuicaoEstadoCivil' },
+    { id: 'empregoChart', titulo: 'Situação de Emprego', campo: 'distribuicaoEmprego' },
+    { id: 'religiaoChart', titulo: 'Religião', campo: 'distribuicaoReligiao' },
+    { id: 'dependentesChart', titulo: 'Dependentes', campo: 'distribuicaoDependentes' },
+    { id: 'dispositivosChart', titulo: 'Dispositivos nas Refeições', campo: 'distribuicaoUsoDispositivos' },
+    { id: 'faixaEtariaChart', titulo: 'Faixa Etária', campo: 'distribuicaoFaixaEtaria' },
+    { id: 'regiaoChart', titulo: 'Região', campo: 'distribuicaoRegiao' },
+    { id: 'feijaoChart', titulo: 'Consumo de Feijão', campo: 'consumoFeijao' },
+    { id: 'frutasChart', titulo: 'Consumo de Frutas Frescas', campo: 'consumoFrutas' },
+    { id: 'verdurasChart', titulo: 'Consumo de Verduras/Legumes', campo: 'consumoVerduras' },
+    { id: 'embutidosChart', titulo: 'Consumo de Embutidos', campo: 'consumoEmbutidos' },
+    { id: 'bebidasChart', titulo: 'Consumo de Bebidas Adoçadas', campo: 'consumoBebidas' },
+    { id: 'macarraoChart', titulo: 'Consumo de Macarrão Instantâneo', campo: 'consumoMacarrao' },
+    { id: 'guloseimasChart', titulo: 'Consumo de Guloseimas', campo: 'consumoGuloseimas' },
+    { id: 'preocupacaoChart', titulo: 'Preocupação com Alimentos Acabando', campo: 'ebiaPreocupacao' },
+    { id: 'alimentosAcabaramChart', titulo: 'Alimentos Acabaram', campo: 'ebiaAcabaram' },
+    { id: 'alimentacaoSaudavelChart', titulo: 'Sem Dinheiro para Alimentação Saudável', campo: 'ebiaSemDinheiro' },
+    { id: 'poucosAlimentosChart', titulo: 'Poucos Alimentos Disponíveis', campo: 'ebiaPoucos' },
+    { id: 'adultoSemRefeicaoChart', titulo: 'Adulto Sem Refeição', campo: 'ebiaSemRefeicao' },
+    { id: 'adultoFomeChart', titulo: 'Adulto com Fome que Não Comeu', campo: 'ebiaFome' },
+    { id: 'adultoUmaRefeicaoChart', titulo: 'Adulto com 1 Refeição/Dia', campo: 'ebiaUmaRefeicao' },
+    { id: 'insegurancaChart', titulo: 'Classificação de Insegurança Alimentar', campo: 'classificacaoInseguranca' },
   ];
 
-  let chartFamilia, chartConsumo;
+  const opcoesComuns = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom' },
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            const label = context.label || '';
+            const value = context.raw || 0;
+            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+            const percentage = total > 0 ? Math.round((value / total) * 100) : 0;
+            return `${label}: ${value} (${percentage}%)`;
+          },
+        },
+      },
+    },
+  };
 
-  Chart.register(ChartDataLabels);
-  Chart.defaults.font.family = 'Poppins';
-  Chart.defaults.color = '#333';
-
-  // Função para mostrar erros
-  function mostrarErro(elementId, error) {
-      const container = document.getElementById(elementId);
-      container.innerHTML = `
-          <div style="color: red; padding: 20px; text-align: center;">
-              <i class="fas fa-exclamation-triangle"></i>
-              <p>Erro ao carregar dados</p>
-              <small>${error.message}</small>
-          </div>
-      `;
+  function criarElementoGrafico(id, titulo) {
+    const container = document.getElementById('charts-container');
+    const card = document.createElement('div');
+    card.className = 'chart-card';
+    card.innerHTML = `<div class="chart-title">${titulo}</div><div class="chart-wrapper"><canvas id="${id}"></canvas></div>`;
+    container.appendChild(card);
   }
 
-  // Relatório Família x Insegurança
-  async function carregarRelatorioFamilia(idadeMin, idadeMax) {
-    try {
-        const params = new URLSearchParams();
-        if (idadeMin) params.append('idadeMin', idadeMin);
-        if (idadeMax) params.append('idadeMax', idadeMax);
+  function criarGrafico(id, dados) {
+    const labels = Object.keys(dados);
+    const values = Object.values(dados);
 
-        const response = await fetch(`/api/relatorios/familia-inseguranca?${params}`);
-        if (!response.ok) throw new Error(await response.text());
-
-        const data = await response.json();
-        console.log("Dados da API:", data);
-
-        // Processamento das labels
-        const labels = Object.keys(data.contagemPorFamilia).map(k => tradutor[k]);
-
-        // Criação dos datasets
-    // Em carregarRelatorioFamilia()
-      const datasets = Object.values(ClassificacaoInseguranca).map((cls, index) => ({
-          label: tradutor[cls.name()],
-          data: Object.keys(data.contagemPorFamilia).map(depKey => {
-        return data.insegurancaPorFamilia[depKey][cls.name()] || 0;
-       }),
-       backgroundColor: coresPersonalizadas[index],
-       borderWidth: 1
-      }));
-
-        // Atualização do gráfico
-        if (chartFamilia) chartFamilia.destroy();
-
-        chartFamilia = new Chart(document.getElementById('chartFamilia'), {
-            type: 'bar',
-            data: { labels, datasets },
-            options: {
-                responsive: true,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Distribuição de Insegurança Alimentar por Família'
-                    },
-                    legend: { position: 'bottom' }
-                },
-                scales: {
-                    x: { stacked: true },
-                    y: {
-                        stacked: true,
-                        beginAtZero: true,
-                        title: { display: true, text: 'Número de Famílias' }
-                    }
-                }
-            }
-        });
-
-    } catch (error) {
-        console.error("Erro:", error);
-        document.getElementById('chartFamilia').innerHTML = `
-            <div class="error">
-                <i class="fas fa-exclamation-triangle"></i>
-                <h3>Falha na carga de dados</h3>
-                <p>${error.message}</p>
-            </div>
-        `;
-    }
+    new Chart(document.getElementById(id), {
+      type: 'pie',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            data: values,
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.7)',
+              'rgba(54, 162, 235, 0.7)',
+              'rgba(255, 206, 86, 0.7)',
+              'rgba(75, 192, 192, 0.7)',
+              'rgba(153, 102, 255, 0.7)',
+              'rgba(255, 159, 64, 0.7)',
+              'rgba(199, 199, 199, 0.7)',
+              'rgba(0, 100, 0, 0.7)',
+            ],
+          },
+        ],
+      },
+      options: opcoesComuns,
+    });
   }
 
-  async function carregarRelatorioConsumo(escolaridade) {
-    try {
-        const params = new URLSearchParams();
-        if(escolaridade) params.append('escolaridade', escolaridade);
-
-        const response = await fetch(`/api/relatorios/familia-consumo?${params}`);
-        if(!response.ok) throw new Error(await response.text());
-
-        const data = await response.json();
-        console.log("Dados de consumo:", data);
-
-        // Processamento das labels
-        const labels = Object.keys(data.consumoPorFamilia)
-            .map(key => tradutor[key] || key);
-
-        // Criação dos datasets
-        const datasets = [
-            {
-                label: 'Consome Feijão',
-                data: labels.map(label => {
-                    const depKey = Object.keys(tradutor).find(k => tradutor[k] === label);
-                    return data.consumoPorFamilia[depKey]?.feijao || 0;
-                }),
-                backgroundColor: '#2e7d32'
-            },
-            {
-                label: 'Consome Frutas Frescas',
-                data: labels.map(label => {
-                    const depKey = Object.keys(tradutor).find(k => tradutor[k] === label);
-                    return data.consumoPorFamilia[depKey]?.frutasFrescas || 0;
-                }),
-                backgroundColor: '#4caf50'
-            }
-        ];
-
-        // Renderização do gráfico
-        if(chartConsumo) chartConsumo.destroy();
-
-        chartConsumo = new Chart(document.getElementById('chartConsumo'), {
-            type: 'bar',
-            data: { labels, datasets },
-            options: {
-                responsive: true,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: `Consumo Alimentar (${data.totalRegistros} famílias analisadas)`
-                    },
-                    legend: { position: 'top' }
-                },
-                scales: {
-                    y: { beginAtZero: true }
-                }
-            }
-        });
-
-    } catch(error) {
-        console.error("Erro no consumo:", error);
-        document.getElementById('chartConsumo').innerHTML = `
-            <div class="error">
-                <i class="fas fa-exclamation-triangle"></i>
-                <h3>Erro no consumo</h3>
-                <p>${error.message}</p>
-            </div>
-        `;
-    }
+  function atualizarGraficos(data) {
+    graficosEsperados.forEach((grafico) => {
+      if (data[grafico.campo]) {
+        criarElementoGrafico(grafico.id, grafico.titulo);
+        criarGrafico(grafico.id, data[grafico.campo]);
+      }
+    });
   }
 
-<script>
-
-
-  // Inicialização
-  document.addEventListener('DOMContentLoaded', () => {
-      carregarRelatorioFamilia(null, null);
-      carregarRelatorioConsumo(null);
-
-      document.getElementById('btnAtualizar1').addEventListener('click', () => {
-          const idade = document.getElementById('filterIdade1').value;
-          const [min, max] = idade ? idade.split('-').map(Number) : [null, null];
-          carregarRelatorioFamilia(min, max);
-      });
-
-      document.getElementById('btnAtualizar2').addEventListener('click', () => {
-          const escolaridade = document.getElementById('filterEscolaridade').value;
-          carregarRelatorioConsumo(escolaridade);
-      });
-  });
+  fetch('/api/relatorios/dashboard')
+    .then((response) => response.json())
+    .then((data) => atualizarGraficos(data))
+    .catch((error) => console.error('Erro ao carregar os dados do backend:', error));
 </script>
-
 </body>
 </html>

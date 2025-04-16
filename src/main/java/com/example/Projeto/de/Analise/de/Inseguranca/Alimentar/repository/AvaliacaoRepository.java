@@ -1,21 +1,17 @@
 package com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.repository;
 
-import com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.common.enums.ClassificacaoInseguranca;
-import com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.common.enums.Dependentes;
+import com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.common.enums.*;
 import com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.model.Avaliacao;
 import com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.model.User;
-import com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.common.enums.Genero;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
-public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
+public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long>,AvaliacaoRepositoryCustom {
 
     // Consultas customizadas para relatórios
 
@@ -83,7 +79,6 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
 
     @Query("SELECT a FROM Avaliacao a JOIN FETCH a.questionario q WHERE q.dependentes IS NOT NULL")
     List<Avaliacao> findAllWithQuestionarioAndDependentes();
-
 
 
 }

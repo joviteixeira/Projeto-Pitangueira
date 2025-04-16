@@ -1,8 +1,6 @@
 package com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.controller;
 
 import com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.common.dto.AvaliacaoDTO;
-import com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.common.exceptions.InvalidTokenException;
-import com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.common.exceptions.WeakPasswordException;
 import com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.model.User;
 import com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.service.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -147,9 +145,7 @@ public class WebController {
 
     @GetMapping("/relatorios")
     public String relatorios(Model model) {
-        model.addAttribute("familiaInseguranca", relatorioEstatisticoService.relatorioFamiliaInseguranca(null, null));
-        model.addAttribute("familiaConsumo", relatorioEstatisticoService.relatorioConsumoAlimentar(null));
-        return "relatorios";
+        return "relatorios"; // carrega o relatorios.html do templates
     }
 
     @GetMapping("/sucesso")

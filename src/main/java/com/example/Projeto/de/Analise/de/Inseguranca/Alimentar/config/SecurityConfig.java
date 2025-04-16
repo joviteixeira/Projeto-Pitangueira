@@ -30,14 +30,15 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/login",
                                 "/register",
-                                "/recuperar-senha",  // Add password recovery endpoints
+                                "/recuperar-senha",
                                 "/redefinir-senha",
                                 "/solicitar-redefinicao-senha",
                                 "/css/**",
                                 "/js/**",
                                 "/images/**"
                         ).permitAll()
-                        .requestMatchers("/home", "/questionario/**", "/relatorios/", "/api/relatorios/**", "/sobre","/contato").authenticated()
+                        .requestMatchers("/api/relatorios/**").permitAll() // ✅ LIBERANDO A API DO DASHBOARD
+                        .requestMatchers("/home", "/questionario/**", "/relatorios", "/sobre", "/contato").authenticated()
                         .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
@@ -56,5 +57,6 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 
 }

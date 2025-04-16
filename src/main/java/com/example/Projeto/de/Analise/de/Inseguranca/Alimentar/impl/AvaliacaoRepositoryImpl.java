@@ -1,74 +1,79 @@
 package com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.impl;
 
+import com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.common.enums.*;
 import com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.model.Avaliacao;
+import com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.model.QuestionarioSocioeconomico;
 import com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.repository.AvaliacaoRepositoryCustom;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+import java.util.*;
+import java.util.function.Function;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+@Repository
 @RequiredArgsConstructor
 public class AvaliacaoRepositoryImpl implements AvaliacaoRepositoryCustom {
 
-    private final EntityManager em;
-
+    private final EntityManager entityManager;
 
     @Override
-    public List<Avaliacao> findByFiltros(Map<String, String> filtros) {
-        // Criar o CriteriaBuilder e a CriteriaQuery
-        CriteriaBuilder cb = em.getCriteriaBuilder();
+    public List<Avaliacao> findByFiltros(Map<String, String> filters) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Avaliacao> query = cb.createQuery(Avaliacao.class);
         Root<Avaliacao> root = query.from(Avaliacao.class);
 
-        // Join com a tabela questionario (caso esteja buscando por campos relacionados)
-        Join<?, ?> socio = root.join("questionario", JoinType.LEFT);
+        // Join com as entidades relacionadas
+        Join<Avaliacao, QuestionarioSocioeconomico> socio = root.join("questionario", JoinType.INNER);
 
-        // Lista de predicates que representará as condições da consulta
         List<Predicate> predicates = new ArrayList<>();
 
-        // Verificar e aplicar filtros
-        if (filtros.containsKey("genero") && !filtros.get("genero").trim().isEmpty()) {
-            predicates.add(cb.equal(socio.get("genero"), filtros.get("genero")));
-        }
+        // Mapeamento de filtros para campos
+        Map<String, Function<String, Predicate>> filterHandlers = new HashMap<>();
 
-        if (filtros.containsKey("racaCor") && !filtros.get("racaCor").trim().isEmpty()) {
-            predicates.add(cb.equal(socio.get("racaCor"), filtros.get("racaCor")));
-        }
+        filterHandlers.put("genero", value ->
+                cb.equal(socio.get("genero"), Genero.valueOf(value.toUpperCase())));
 
-        if (filtros.containsKey("idadeMin") && !filtros.get("idadeMin").trim().isEmpty()) {
+        filterHandlers.put("racaCor", value ->
+                cb.equal(socio.get("racaCor"), RacaCor.valueOf(value.toUpperCase())));
+
+        filterHandlers.put("escolaridade", value ->
+                cb.equal(socio.get("escolaridade"), Escolaridade.valueOf(value.toUpperCase())));
+
+        filterHandlers.put("emprego", value ->
+                cb.equal(socio.get("emprego"), Emprego.valueOf(value.toUpperCase())));
+
+        filterHandlers.put("dependentes", value ->
+                cb.equal(socio.get("dependentes"), Dependentes.valueOf(value.toUpperCase())));
+
+        filterHandlers.put("idadeMin", value -> {
             try {
-                predicates.add(cb.ge(socio.get("idade"), Integer.parseInt(filtros.get("idadeMin"))));
+                return cb.ge(socio.get("idade"), Integer.parseInt(value));
             } catch (NumberFormatException e) {
-                // Tratar erro caso o valor não seja numérico
-                // Podemos lançar uma exceção ou apenas ignorar o filtro
-                System.out.println("Erro ao processar o filtro de idade mínima: " + e.getMessage());
+                return cb.conjunction();
             }
-        }
+        });
 
-        if (filtros.containsKey("idadeMax") && !filtros.get("idadeMax").trim().isEmpty()) {
+        filterHandlers.put("idadeMax", value -> {
             try {
-                predicates.add(cb.le(socio.get("idade"), Integer.parseInt(filtros.get("idadeMax"))));
+                return cb.le(socio.get("idade"), Integer.parseInt(value));
             } catch (NumberFormatException e) {
-                // Tratar erro caso o valor não seja numérico
-                System.out.println("Erro ao processar o filtro de idade máxima: " + e.getMessage());
+                return cb.conjunction();
             }
-        }
+        });
 
-        if (filtros.containsKey("escolaridade") && !filtros.get("escolaridade").trim().isEmpty()) {
-            predicates.add(cb.equal(socio.get("escolaridade"), filtros.get("escolaridade")));
-        }
+        // Aplicar filtros
+        filters.forEach((key, value) -> {
+            if (value != null && !value.trim().isEmpty()) {
+                Function<String, Predicate> handler = filterHandlers.get(key);
+                if (handler != null) {
+                    predicates.add(handler.apply(value.trim()));
+                }
+            }
+        });
 
-        if (filtros.containsKey("emprego") && !filtros.get("emprego").trim().isEmpty()) {
-            predicates.add(cb.equal(socio.get("emprego"), filtros.get("emprego")));
-        }
+        query.where(predicates.toArray(new Predicate[0]));
 
-        // Adicionar a condição WHERE na consulta
-        query.where(cb.and(predicates.toArray(new Predicate[0])));
-
-        // Criar a consulta e retornar os resultados
-        return em.createQuery(query.select(root)).getResultList();
+        return entityManager.createQuery(query).getResultList();
     }
 }

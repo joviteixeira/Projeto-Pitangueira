@@ -2,7 +2,9 @@ package com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.model;
 
 import com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.common.enums.Refeicao;
 import com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.common.dto.RespostaConsumoDTO;
+import com.example.Projeto.de.Analise.de.Inseguranca.Alimentar.common.enums.UsoDispositivosRefeicao;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import java.util.Set;
 
@@ -34,6 +36,8 @@ public class MarcadoresConsumo {
         private Boolean bebidasAdocadas;
         private Boolean industrializadosSalgados;
         private Boolean docesGuloseimas;
+        @Enumerated(EnumType.STRING)
+        private UsoDispositivosRefeicao usoDispositivosRefeicao;
 
         // Método para conversão do DTO para a entidade
         public static ConsumoDiaAnterior fromDTO(RespostaConsumoDTO.ConsumoDiaAnterior dto) {
@@ -45,7 +49,9 @@ public class MarcadoresConsumo {
             entity.setBebidasAdocadas(dto.getBebidasAdocadas());
             entity.setIndustrializadosSalgados(dto.getIndustrializadosSalgados());
             entity.setDocesGuloseimas(dto.getDocesGuloseimas());
+            entity.setUsoDispositivosRefeicao(dto.getUsoDispositivosRefeicao());
             return entity;
         }
+
     }
 }
